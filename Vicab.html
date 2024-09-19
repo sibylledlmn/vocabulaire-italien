@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Révision du vocabulaire italien</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #0077cc;
+      }
+
+      #italian-word {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      button {
+        background-color: #0077cc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #005fa3;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      #result.correct {
+        color: green;
+      }
+
+      #result.wrong {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Révise ton vocabulaire italien</h1>
+      <p id="italian-word"></p>
+      <input type="text" id="user-input" placeholder="Traduction en français" />
+      <button onclick="checkAnswer()">Vérifier</button>
+      <p id="result"></p>
+    </div>
+
+    <script>
+      const vocabulaire = [
+        { italien: "cane", francais: "chien" },
+        { italien: "gatto", francais: "chat" },
+        { italien: "casa", francais: "maison" },
+        { italien: "libro", francais: "livre" },
+        { italien: "scuola", francais: "école" },
+      ];
+
+      let motsUtilises = [];
+
+      function getRandomWord() {
+        if (vocabulaire.length === 0) {
+          document.getElementById("italian-word").innerText =
+            "Tu as révisé tous les mots !";
+          return;
+        }
+        const randomIndex = Math.floor(Math.random() * vocabulaire.length);
+        const mot = vocabulaire[randomIndex];
+        motsUtilises.push(mot);
+        vocabulaire.splice(randomIndex, 1);
+        document.getElementById("italian-word").innerText = mot.italien;
+      }
+
+      function checkAnswer() {
+        const userAnswer = document
+          .getElementById("user-input")
+          .value.toLowerCase()
+          .trim();
+        const currentWord = motsUtilises[motsUtilises.length - 1];
+        const correctAnswer = currentWord.francais.toLowerCase();
+
+        if (userAnswer === correctAnswer) {
+          document.getElementById("result").innerText = "Correct !";
+          document.getElementById("result").className = "correct";
+        } else {
+          document.getElementById(
+            "result"
+          ).innerText = `Faux ! La bonne réponse était : ${currentWord.francais}`;
+          document.getElementById("result").className = "wrong";
+        }
+
+        document.getElementById("user-input").value = "";
+        getRandomWord();
+      }
+
+      // Initialiser avec un premier mot
+      getRandomWord();
+    </script>
+  </body>
+</html>
