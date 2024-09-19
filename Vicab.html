@@ -1,0 +1,3856 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Révision du vocabulaire italien</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #0077cc;
+      }
+
+      #word-to-translate {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      input {
+        width: calc(
+          100% - 20px
+        ); /* Réduit la largeur totale pour éviter le débordement */
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+      }
+
+      button {
+        background-color: #0077cc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #005fa3;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      #result.correct {
+        color: green;
+      }
+
+      #result.wrong {
+        color: red;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          width: 90%;
+        }
+
+        h1 {
+          font-size: 20px;
+        }
+
+        button {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+
+        input {
+          padding: 8px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Révise ton vocabulaire italien</h1>
+      <p id="word-to-translate"></p>
+      <input type="text" id="user-input" placeholder="Traduction" />
+      <button onclick="checkAnswer()">Vérifier</button>
+      <p id="result"></p>
+    </div>
+
+    <script>
+      const vocabulaire = [
+        { italien: "avvicinare", francais: "approcher" },
+        { italien: "paesaggio", francais: "paysage" },
+        { italien: "fretta", francais: "pressée" },
+        { italien: "pietra", francais: "pierre" },
+        { italien: "vaso", francais: "vase" },
+        { italien: "sugo", francais: "sauce" },
+        { italien: "davanti", francais: "devant" },
+        { italien: "giovane", francais: "jeune" },
+        { italien: "trentina", francais: "trentaine" },
+        { italien: "rispondere", francais: "répondre" },
+        {
+          italien: "subito",
+          francais: "de suite",
+        },
+        {
+          italien: "fuori",
+          francais: "dehors",
+        },
+        {
+          italien: "ovunque",
+          francais: "partout",
+        },
+        {
+          italien: "nacosta",
+          francais: "cachée",
+        },
+        {
+          italien: "scomparire",
+          francais: "disparaître",
+        },
+        {
+          italien: "assurda",
+          francais: "absurde",
+        },
+        {
+          italien: "regalo",
+          francais: "cadeau",
+        },
+        {
+          italien: "scelte",
+          francais: "choix",
+        },
+        {
+          italien: "lo spazzolino da denti",
+          francais: "la brosse à dent",
+        },
+        {
+          italien: "il mese scorso",
+          francais: "le mois prochain",
+        },
+        {
+          italien: "infenzia",
+          francais: "l'enfance",
+        },
+        {
+          italien: "tornare",
+          francais: ["revenir", "retourner", "rentrer"],
+        },
+        {
+          italien: "mattina",
+          francais: "matin",
+        },
+        {
+          italien: "accompagnare",
+          francais: "accompagner",
+        },
+        {
+          italien: "prenotare",
+          francais: "réserver",
+        },
+        {
+          italien: "splendere",
+          francais: "briller",
+        },
+        {
+          italien: "luglio",
+          francais: "juillet",
+        },
+        {
+          italien: "finestrino",
+          francais: "fenêtre de voiture",
+        },
+        {
+          italien: "finestra",
+          francais: "fenêtre",
+        },
+        {
+          italien: "i boschi",
+          francais: "les bois",
+        },
+        {
+          italien: "l'aria fresca",
+          francais: "l'air frais",
+        },
+        {
+          italien: "profumo",
+          francais: "parfum",
+        },
+        {
+          italien: "pianta",
+          francais: "plante",
+        },
+        {
+          italien: "dopo",
+          francais: "après",
+        },
+        {
+          italien: "invece",
+          francais: "en revanche",
+        },
+        {
+          italien: "insieme",
+          francais: "ensemble",
+        },
+        {
+          italien: "durante",
+          francais: "durant",
+        },
+        {
+          italien: "l'odore",
+          francais: "l'odeur",
+        },
+        {
+          italien: "un'indagine",
+          francais: "une enquête",
+        },
+        {
+          italien: "ordine",
+          francais: "ordre",
+        },
+        {
+          italien: "qui e là",
+          francais: "ici et là",
+        },
+        {
+          italien: "a prima vista",
+          francais: "à première vue",
+        },
+        {
+          italien: "di solito",
+          francais: "d'habitude",
+        },
+        {
+          italien: "borgo",
+          francais: "village",
+        },
+        {
+          italien: "cartolina",
+          francais: "carte postale",
+        },
+        {
+          italien: "persa",
+          francais: "perdue",
+        },
+        {
+          italien: "perso",
+          francais: "perdu",
+        },
+        {
+          italien: "lasciare",
+          francais: "laisser",
+        },
+        {
+          italien: "pure",
+          francais: ["aussi", "également", "même"],
+        },
+        {
+          italien: "in effeti",
+          francais: ["en effet"],
+        },
+        {
+          italien: "stranieri",
+          francais: ["étrangers"],
+        },
+        {
+          italien: "salumi",
+          francais: ["charcuterie"],
+        },
+        {
+          italien: "brindare",
+          francais: ["trinquer"],
+        },
+        {
+          italien: "vestito",
+          francais: ["robe", "costume", "tenue:vêtement"],
+        },
+        {
+          italien: "camicia",
+          francais: ["chemise"],
+        },
+        {
+          italien: "la prenotazione",
+          francais: ["la réservation"],
+        },
+        {
+          italien: "fa caldo",
+          francais: ["il fait chaud"],
+        },
+        {
+          italien: "piove",
+          francais: ["il pleut"],
+        },
+        {
+          italien: "spesso",
+          francais: ["souvent"],
+        },
+        {
+          italien: "a chiave",
+          francais: ["à clé"],
+        },
+        {
+          italien: "ho capito",
+          francais: ["j'ai compris"],
+        },
+        {
+          italien: "piuttosto",
+          francais: ["plûtot", "assez"],
+        },
+        {
+          italien: "mezzanotte",
+          francais: ["minuit"],
+        },
+        {
+          italien: "un letto",
+          francais: ["un lit"],
+        },
+        {
+          italien: "populazione",
+          francais: ["population"],
+        },
+        {
+          italien: "votare",
+          francais: ["voter"],
+        },
+        {
+          italien: "una chiesa",
+          francais: ["une église"],
+        },
+        {
+          italien: "moglie",
+          francais: ["épouse"],
+        },
+        {
+          italien: "marito",
+          francais: ["mari"],
+        },
+        {
+          italien: "ufficio",
+          francais: ["bureau"],
+        },
+        {
+          italien: "un albero",
+          francais: ["un arbre"],
+        },
+        {
+          italien: "ieri",
+          francais: ["hier"],
+        },
+        {
+          italien: "colazione",
+          francais: ["petit-déjeuner"],
+        },
+        {
+          italien: "la macchina fotografica",
+          francais: ["l'appareil photo"],
+        },
+        {
+          italien: "mettere",
+          francais: ["mettre"],
+        },
+        {
+          italien: "spinaci",
+          francais: ["épinard"],
+        },
+        {
+          italien: "un alluno",
+          francais: ["un élève"],
+        },
+        {
+          italien: "una alluna",
+          francais: ["une élève"],
+        },
+        {
+          italien: "il cameriere",
+          francais: ["le serveur"],
+        },
+        {
+          italien: "la cameriera",
+          francais: ["la serveuse"],
+        },
+        {
+          italien: "farmacista",
+          francais: ["pharmacien", "pharmacienne"],
+        },
+        {
+          italien: "nipote",
+          francais: ["nièce", "neveu", "petit-fils", "petite-fille"],
+        },
+        {
+          italien: "fratello",
+          francais: ["frère"],
+        },
+        {
+          italien: "sorella",
+          francais: ["soeur"],
+        },
+        {
+          italien: "il prezzo",
+          francais: ["le prix"],
+        },
+        {
+          italien: "il dente",
+          francais: ["la dent"],
+        },
+        {
+          italien: "la penna",
+          francais: ["le stylo"],
+        },
+        {
+          italien: "un tavolo",
+          francais: ["une table"],
+        },
+        {
+          italien: "cuccinare",
+          francais: ["cuisiner"],
+        },
+
+        {
+          italien: "stasera",
+          francais: ["ce soir"],
+        },
+        {
+          italien: "bisogno",
+          francais: ["besoin"],
+        },
+        {
+          italien: "di cosa",
+          francais: ["de quoi"],
+        },
+        {
+          italien: "cercare",
+          francais: ["chercher"],
+        },
+        {
+          italien: "ecco",
+          francais: ["voici"],
+        },
+        {
+          italien: "lunghe",
+          francais: ["longues"],
+        },
+        {
+          italien: "longhi",
+          francais: ["longs"],
+        },
+        {
+          italien: "il lavoro",
+          francais: ["le travail"],
+        },
+        {
+          italien: "fidanzata",
+          francais: ["fiancée"],
+        },
+        {
+          italien: "appassionata",
+          francais: ["passionnées"],
+        },
+        {
+          italien: "stressata",
+          francais: ["stressée"],
+        },
+        {
+          italien: "correre",
+          francais: ["courrir"],
+        },
+        {
+          italien: "angolini",
+          francais: ["coins"],
+        },
+        {
+          italien: "ipotesi",
+          francais: ["hypothèses"],
+        },
+        {
+          italien: "l'errore",
+          francais: ["l'erreur"],
+        },
+        {
+          italien: "l'invito",
+          francais: ["l'invitation"],
+        },
+        {
+          italien: "l'aiuto",
+          francais: ["l'aide"],
+        },
+        {
+          italien: "aiutare",
+          francais: ["aider"],
+        },
+        {
+          italien: "la coppia",
+          francais: ["le couple"],
+        },
+        {
+          italien: "l'estate",
+          francais: ["l'été"],
+        },
+        {
+          italien: "la percentuale",
+          francais: ["le pourcentage"],
+        },
+        {
+          italien: "l'indirizzo",
+          francais: ["l'adresse"],
+        },
+        {
+          italien: "guardare",
+          francais: ["regarder"],
+        },
+        {
+          italien: "gli occhiali da sole",
+          francais: ["les lunettes de soleil"],
+        },
+        {
+          italien: "erba",
+          francais: ["herbe"],
+        },
+        {
+          italien: "aspettare",
+          francais: ["attendre"],
+        },
+        {
+          italien: "une rivista",
+          francais: ["une revue"],
+        },
+        {
+          italien: "l'anno prossimo",
+          francais: ["l'année prochaine"],
+        },
+        {
+          italien: "incontrare",
+          francais: ["rencontrer"],
+        },
+        {
+          italien: "settimana",
+          francais: ["semaine"],
+        },
+        {
+          italien: "adesso",
+          francais: ["maintenant"],
+        },
+        {
+          italien: "domani",
+          francais: ["demain"],
+        },
+        {
+          italien: "colloquio di lavoro",
+          francais: ["entretien d'embauche"],
+        },
+        {
+          italien: "ogni",
+          francais: ["chaque"],
+        },
+        {
+          italien: "convidire",
+          francais: ["partager"],
+        },
+        {
+          italien: "un sogno",
+          francais: ["un rêve"],
+        },
+        {
+          italien: "cuocere",
+          francais: ["cuire"],
+        },
+        {
+          italien: "non vedo l'ora",
+          francais: ["j'ai hâte"],
+        },
+        {
+          italien: "rimuovere",
+          francais: ["enlever"],
+        },
+        {
+          italien: "a che ora",
+          francais: ["à quelle heure"],
+        },
+        {
+          italien: "camminare",
+          francais: ["marcher"],
+        },
+        {
+          italien: "dove vai",
+          francais: ["où vas-tu"],
+        },
+        {
+          italien: "aspetta",
+          francais: ["attends"],
+        },
+        {
+          italien: "abitare",
+          francais: ["habiter"],
+        },
+        {
+          italien: "arrivare",
+          francais: ["arriver"],
+        },
+        {
+          italien: "ascoltare",
+          francais: ["écouter"],
+        },
+        {
+          italien: "ballare",
+          francais: ["danser"],
+        },
+        {
+          italien: "comprare",
+          francais: ["acheter"],
+        },
+        {
+          italien: "continuare",
+          francais: ["continuer"],
+        },
+        {
+          italien: "fermare",
+          francais: ["arrêter"],
+        },
+        {
+          italien: "giocare",
+          francais: ["jouer"],
+        },
+        {
+          italien: "guidare",
+          francais: ["conduire"],
+        },
+        {
+          italien: "iniziare",
+          francais: ["commencer"],
+        },
+        {
+          italien: "lavare",
+          francais: ["laver"],
+        },
+        {
+          italien: "mangiare",
+          francais: ["manger"],
+        },
+        {
+          italien: "pensare",
+          francais: ["penser"],
+        },
+        {
+          italien: "portare",
+          francais: ["porter", "conduire", "amener"],
+        },
+        {
+          italien: "preparare",
+          francais: ["préparer"],
+        },
+        {
+          italien: "studiare",
+          francais: ["étudier"],
+        },
+        {
+          italien: "trovare",
+          francais: ["trouver"],
+        },
+        {
+          italien: "viaggare",
+          francais: ["voyager"],
+        },
+
+        {
+          italien: "l'orario di lavora",
+          francais: ["les horaires de travail"],
+        },
+        {
+          italien: "un messagio",
+          francais: ["un message"],
+        },
+        {
+          italien: "un calzini",
+          francais: ["une chaussette"],
+        },
+        {
+          italien: "un paio",
+          francais: ["une paire"],
+        },
+        {
+          italien: "visitare",
+          francais: ["visiter"],
+        },
+        {
+          italien: "chiedere",
+          francais: ["demander"],
+        },
+        {
+          italien: "chiudere",
+          francais: ["fermer"],
+        },
+        {
+          italien: "conoscere",
+          francais: ["connaître"],
+        },
+        {
+          italien: "decidere",
+          francais: ["décider"],
+        },
+        {
+          italien: "leggere",
+          francais: ["lire"],
+        },
+        {
+          italien: "perdere",
+          francais: ["perdre", "manquer", "louper"],
+        },
+        {
+          italien: "piangere",
+          francais: ["pleurer"],
+        },
+        {
+          italien: "ridere",
+          francais: ["rire"],
+        },
+        {
+          italien: "sorridere",
+          francais: ["sourir"],
+        },
+        {
+          italien: "vedere",
+          francais: ["voir"],
+        },
+        {
+          italien: "vincere",
+          francais: ["gagner"],
+        },
+        {
+          italien: "vivere",
+          francais: ["vivre"],
+        },
+        {
+          italien: "coprire",
+          francais: ["couvrir"],
+        },
+        {
+          italien: "offrire",
+          francais: ["offrir"],
+        },
+        {
+          italien: "scoprire",
+          francais: ["découvrir"],
+        },
+        {
+          italien: "sentire",
+          francais: ["sentir", "entendre"],
+        },
+        {
+          italien: "seguire",
+          francais: ["suivre"],
+        },
+        {
+          italien: "servire",
+          francais: ["servir"],
+        },
+        {
+          italien: "aprire",
+          francais: ["ouvrir"],
+        },
+        {
+          italien: "rimanere",
+          francais: ["rester"],
+        },
+        {
+          italien: "alzare",
+          francais: ["augmenter", "lever"],
+        },
+        {
+          italien: "salvare",
+          francais: ["sauver"],
+        },
+
+        {
+          italien: "spiegare",
+          francais: ["expliquer"],
+        },
+        {
+          italien: "rischiare",
+          francais: ["risquer"],
+        },
+        {
+          italien: "vendere",
+          francais: ["vendre"],
+        },
+        {
+          italien: "potere",
+          francais: ["pouvoir"],
+        },
+        {
+          italien: "dovere",
+          francais: ["devoir"],
+        },
+        {
+          italien: "sapere",
+          francais: ["savoir"],
+        },
+        {
+          italien: "bere",
+          francais: ["boire"],
+        },
+        {
+          italien: "udire",
+          francais: ["entendre"],
+        },
+        {
+          italien: "scegliere",
+          francais: ["choisir"],
+        },
+        {
+          italien: "condurre",
+          francais: ["mener"],
+        },
+        {
+          italien: "proporre",
+          francais: ["proposer"],
+        },
+        {
+          italien: "uscire",
+          francais: ["sortir"],
+        },
+        {
+          italien: "salire",
+          francais: ["monter"],
+        },
+        {
+          italien: "apparire",
+          francais: ["apparaître"],
+        },
+        {
+          italien: "capire",
+          francais: ["comprendre"],
+        },
+        {
+          italien: "proteggere",
+          francais: ["protéger"],
+        },
+        {
+          italien: "la bocca",
+          francais: ["la bouche"],
+        },
+        {
+          italien: "in mezzo al niente",
+          francais: ["au milieu de nul part"],
+        },
+        {
+          italien: "chi meglio",
+          francais: ["qui de mieux"],
+        },
+        {
+          italien: "però",
+          francais: ["cependant", "toutefois", "néanmoins"],
+        },
+        {
+          italien: "rovinare",
+          francais: ["gâcher"],
+        },
+        {
+          italien: "a tutti i costi",
+          francais: ["à tout prix"],
+        },
+        {
+          italien: "un dirrito",
+          francais: ["un droit"],
+        },
+        {
+          italien: "il giornalista",
+          francais: ["le journaliste"],
+        },
+        {
+          italien: "una domanda",
+          francais: ["une question"],
+        },
+        {
+          italien: "il rischio",
+          francais: ["le risque"],
+        },
+        {
+          italien: "un tono",
+          francais: ["un ton"],
+        },
+        {
+          italien: "rendere",
+          francais: ["rendre"],
+        },
+        {
+          italien: "brutta figura",
+          francais: ["moche figure"],
+        },
+        {
+          italien: "alcune",
+          francais: ["quelques"],
+        },
+        {
+          italien: "spingere",
+          francais: ["pousser"],
+        },
+        {
+          italien: "passare",
+          francais: ["passer"],
+        },
+        {
+          italien: "pulire",
+          francais: ["nettoyer"],
+        },
+        {
+          italien: "saltare",
+          francais: ["sauter"],
+        },
+        {
+          italien: "nuotare",
+          francais: ["nager"],
+        },
+        {
+          italien: "cadere",
+          francais: ["tomber"],
+        },
+        {
+          italien: "a volte",
+          francais: ["parfois"],
+        },
+        {
+          italien: "davvero",
+          francais: ["vraiment"],
+        },
+        {
+          italien: "paese",
+          francais: ["pays"],
+        },
+        {
+          italien: "cantare",
+          francais: ["chanter"],
+        },
+        {
+          italien: "battere le mani",
+          francais: ["applaudir"],
+        },
+        {
+          italien: "intorno",
+          francais: ["autour"],
+        },
+        {
+          italien: "percorso",
+          francais: ["parcours"],
+        },
+        {
+          italien: "biglietto",
+          francais: ["billet"],
+        },
+        {
+          italien: "pagare",
+          francais: ["payer"],
+        },
+        {
+          italien: "se sentire in colpa",
+          francais: ["culpabiliser"],
+        },
+        {
+          italien: "comoda",
+          francais: ["confortable"],
+        },
+        {
+          italien: "poco più in là",
+          francais: ["un peu plus loin"],
+        },
+        {
+          italien: "vecchio",
+          francais: ["vieux"],
+        },
+        {
+          italien: "difficilmente",
+          francais: ["difficilement"],
+        },
+        {
+          italien: "particolarmente",
+          francais: ["particulièrement"],
+        },
+        {
+          italien: "apposta",
+          francais: ["exprès", "spécialement"],
+        },
+        {
+          italien: "così",
+          francais: ["ainsi", "comme ça", "a caso"],
+        },
+        {
+          italien: "au hasard",
+          francais: ["sul serio"],
+        },
+        {
+          italien: "au sérieux",
+          francais: ["accanta"],
+        },
+        {
+          italien: "à côté",
+          francais: ["lassù"],
+        },
+        {
+          italien: "là-haut",
+          francais: ["altrove"],
+        },
+        {
+          italien: "ailleurs",
+          francais: ["dappertutto"],
+        },
+        {
+          italien: "partout",
+          francais: ["ovunque"],
+        },
+        {
+          italien: "partout",
+          francais: ["sopra"],
+        },
+        {
+          italien: "dessus",
+          francais: ["sotto"],
+        },
+        {
+          italien: "dessous",
+          francais: ["di fronta a"],
+        },
+        {
+          italien: "ora",
+          francais: ["maintenant"],
+        },
+
+        {
+          italien: "allora",
+          francais: ["alors"],
+        },
+        {
+          italien: "presto",
+          francais: ["tôt"],
+        },
+        {
+          italien: "tardi",
+          francais: ["tard"],
+        },
+        {
+          italien: "finora",
+          francais: ["jusqu'à présent"],
+        },
+        {
+          italien: "ormai",
+          francais: ["désormais"],
+        },
+        {
+          italien: "nuovamente",
+          francais: ["de nouveau"],
+        },
+        {
+          italien: "raramente",
+          francais: ["rarement"],
+        },
+        {
+          italien: "dapprima",
+          francais: ["tout d'abord"],
+        },
+        {
+          italien: "intanto",
+          francais: ["entre-temps"],
+        },
+        {
+          italien: "precedentemente",
+          francais: ["précédemment"],
+        },
+        {
+          italien: "allo",
+          francais: ["en même temps"],
+        },
+        {
+          italien: "a lungo",
+          francais: ["longtemps", "longuement"],
+        },
+        {
+          italien: "da poco",
+          francais: ["depuis peu"],
+        },
+        {
+          italien: "di nuovo",
+          francais: ["de nouveau"],
+        },
+        {
+          italien: "fin d'adesso",
+          francais: ["à partir de maintenant"],
+        },
+        {
+          italien: "fra poco",
+          francais: ["bientôt", "d'ici peu"],
+        },
+        {
+          italien: "ogni tanto",
+          francais: ["de temps en temps"],
+        },
+        {
+          italien: "poco fa",
+          francais: ["il y a un instant"],
+        },
+        {
+          italien: "appunto",
+          francais: ["justement", "précisement"],
+        },
+        {
+          italien: "assolutamente",
+          francais: ["absolument"],
+        },
+        {
+          italien: "certo",
+          francais: ["certes"],
+        },
+        {
+          italien: "ovviamente",
+          francais: ["évidemment"],
+        },
+        {
+          italien: "sicuramente",
+          francais: ["sûrement"],
+        },
+        {
+          italien: "affato",
+          francais: ["pas du tout"],
+        },
+        {
+          italien: "neanche",
+          francais: ["même pas"],
+        },
+        {
+          italien: "apparentemente",
+          francais: ["apparemment"],
+        },
+        {
+          italien: "eventualemente",
+          francais: ["éventuellement"],
+        },
+        {
+          italien: "forse",
+          francais: ["peut-être"],
+        },
+        {
+          italien: "neanche per idea",
+          francais: ["jamais de la vie"],
+        },
+        {
+          italien: "neanche per sogno",
+          francais: ["même pas en rêve"],
+        },
+        {
+          italien: "per niente",
+          francais: ["absolument pas"],
+        },
+        {
+          italien: "nulla",
+          francais: ["nullement"],
+        },
+        {
+          italien: "senz'altro",
+          francais: ["sans aucun doute"],
+        },
+        {
+          italien: "abbastanza",
+          francais: ["assez"],
+        },
+        {
+          italien: "alquanto",
+          francais: ["quelque peu"],
+        },
+        {
+          italien: "altrettanto",
+          francais: ["autant", "aussi", "également"],
+        },
+        {
+          italien: "appena",
+          francais: ["à peine"],
+        },
+        {
+          italien: "assai",
+          francais: ["beaucoup"],
+        },
+        {
+          italien: "circa",
+          francais: ["environ"],
+        },
+        {
+          italien: "quasi",
+          francais: ["presque"],
+        },
+        {
+          italien: "tanto beaucoup",
+          francais: ["la tuta"],
+        },
+        {
+          italien: "le survêtement",
+          francais: ["la maglia"],
+        },
+        {
+          italien: "le tricot",
+          francais: ["il maglione"],
+        },
+        {
+          italien: "le pull",
+          francais: ["la maglietta"],
+        },
+        {
+          italien: "le calze",
+          francais: ["les bas"],
+        },
+        {
+          italien: "il reggiseno",
+          francais: ["le soutien-gorge"],
+        },
+        {
+          italien: "le mutande",
+          francais: ["la culotte"],
+        },
+        {
+          italien: "gli stivali",
+          francais: ["les bottes"],
+        },
+        {
+          italien: "maniche",
+          francais: ["manches"],
+        },
+        {
+          italien: "manica",
+          francais: ["manche"],
+        },
+        {
+          italien: "indossare",
+          francais: ["porter", "mettre", "enfiler"],
+        },
+        {
+          italien: "togliere",
+          francais: ["enlever"],
+        },
+        {
+          italien: "la felpa",
+          francais: ["le sweat-shirt"],
+        },
+        {
+          italien: "rilassarsi",
+          francais: ["se détendre"],
+        },
+        {
+          italien: "contare",
+          francais: ["compter"],
+        },
+        {
+          italien: "mandarino",
+          francais: ["mandarine"],
+        },
+        {
+          italien: "tagliare",
+          francais: ["couper", "découper"],
+        },
+        {
+          italien: "fa",
+          francais: ["il fait"],
+        },
+        {
+          italien: "ape",
+          francais: ["abeille"],
+        },
+        {
+          italien: "api abeilles",
+          francais: ["maiale"],
+        },
+        {
+          italien: "cochon",
+          francais: ["ragno"],
+        },
+        {
+          italien: "araignée",
+          francais: ["un topo"],
+        },
+        {
+          italien: "un souris",
+          francais: ["pesante"],
+        },
+        {
+          italien: "lourd",
+          francais: ["risposta"],
+        },
+        {
+          italien: "réponse",
+          francais: ["voglia"],
+        },
+        {
+          italien: "envie",
+          francais: ["fantasma"],
+        },
+        {
+          italien: "fantôme",
+          francais: ["raccontare"],
+        },
+        {
+          italien: "raconter",
+          francais: ["titolo"],
+        },
+        {
+          italien: "sentiero",
+          francais: ["sentier"],
+        },
+        {
+          italien: "attraversare",
+          francais: ["traverser"],
+        },
+        {
+          italien: "nevicare",
+          francais: ["neiger"],
+        },
+        {
+          italien: "nuvola",
+          francais: ["nuage"],
+        },
+        {
+          italien: "fiume",
+          francais: ["fleuve", "rivière"],
+        },
+        {
+          italien: "maturo",
+          francais: ["mûr"],
+        },
+        {
+          italien: "costare",
+          francais: ["coûter"],
+        },
+        {
+          italien: "camera",
+          francais: ["chambre"],
+        },
+        {
+          italien: "monopatino",
+          francais: ["trotinette"],
+        },
+        {
+          italien: "bicicletta",
+          francais: ["bicyclette"],
+        },
+        {
+          italien: "ritardo",
+          francais: ["retard"],
+        },
+        {
+          italien: "pullman",
+          francais: ["car", "autocar"],
+        },
+        {
+          italien: "a piedi",
+          francais: ["a pied"],
+        },
+        {
+          italien: "scendere",
+          francais: ["descendre"],
+        },
+        {
+          italien: "occhio",
+          francais: ["oeil"],
+        },
+        {
+          italien: "provenire",
+          francais: ["provenir"],
+        },
+        {
+          italien: "vicino",
+          francais: ["voisin", "proche"],
+        },
+        {
+          italien: "povero",
+          francais: ["pauvre"],
+        },
+        {
+          italien: "capo",
+          francais: ["chef"],
+        },
+        {
+          italien: "un collega",
+          francais: ["un collègue"],
+        },
+        {
+          italien: "quaderno",
+          francais: ["cahier"],
+        },
+        {
+          italien: "maleducato",
+          francais: ["mal élevé"],
+        },
+        {
+          italien: "nessuno",
+          francais: ["personne", "aucun"],
+        },
+        {
+          italien: "scusatemi",
+          francais: ["excusez-moi"],
+        },
+        {
+          italien: "guida",
+          francais: ["guide"],
+        },
+        {
+          italien: "quartiere",
+          francais: ["quartier"],
+        },
+        {
+          italien: "via",
+          francais: ["rue"],
+        },
+        {
+          italien: "palazzo",
+          francais: ["immeuble"],
+        },
+        {
+          italien: "storico",
+          francais: ["historique"],
+        },
+        {
+          italien: "panetteria",
+          francais: ["boulangerie"],
+        },
+        {
+          italien: "vetrina",
+          francais: ["vitrine"],
+        },
+        {
+          italien: "aperto",
+          francais: ["ouvert"],
+        },
+        {
+          italien: "aperta",
+          francais: ["ouverte"],
+        },
+        {
+          italien: "qui vicino",
+          francais: ["près d'ici"],
+        },
+        {
+          italien: "macelleria",
+          francais: ["boucherie"],
+        },
+        {
+          italien: "fruttivendolo",
+          francais: ["marchand de fruits"],
+        },
+        {
+          italien: "pasticceria",
+          francais: ["pâtisserie"],
+        },
+        {
+          italien: "uno stivale",
+          francais: ["une botte"],
+        },
+        {
+          italien: "tasca",
+          francais: ["poche"],
+        },
+        {
+          italien: "impermeabile",
+          francais: ["imperméable"],
+        },
+
+        {
+          italien: "orologio",
+          francais: ["montre"],
+        },
+        {
+          italien: "collana",
+          francais: ["collier"],
+        },
+        {
+          italien: "ombrello",
+          francais: ["parapluie"],
+        },
+        {
+          italien: "portafolgio",
+          francais: ["portefeuille"],
+        },
+        {
+          italien: "calcio",
+          francais: ["football"],
+        },
+        {
+          italien: "cominciare",
+          francais: ["commencer"],
+        },
+        {
+          italien: "rivedere",
+          francais: ["revoir"],
+        },
+        {
+          italien: "natale",
+          francais: ["noël"],
+        },
+        {
+          italien: "stazione",
+          francais: ["gare"],
+        },
+        {
+          italien: "fermata",
+          francais: ["arrêt"],
+        },
+        {
+          italien: "festa",
+          francais: ["fête"],
+        },
+        {
+          italien: "attento",
+          francais: ["attention"],
+        },
+        {
+          italien: "credere",
+          francais: ["croire"],
+        },
+        {
+          italien: "famoso",
+          francais: ["célèbre"],
+        },
+        {
+          italien: "segreto",
+          francais: ["secret"],
+        },
+
+        {
+          italien: "nato",
+          francais: ["né"],
+        },
+        {
+          italien: "pulito",
+          francais: ["propre"],
+        },
+        {
+          italien: "proprio",
+          francais: ["vraiment"],
+        },
+        {
+          italien: "cattivo",
+          francais: ["méchant"],
+        },
+        {
+          italien: "brutto",
+          francais: ["laid"],
+        },
+        {
+          italien: "basso",
+          francais: ["petit", "bas"],
+        },
+        {
+          italien: "acerbo",
+          francais: ["pas mûr"],
+        },
+        {
+          italien: "grigio",
+          francais: ["gris"],
+        },
+        {
+          italien: "capello",
+          francais: ["cheveu"],
+        },
+        {
+          italien: "giallo",
+          francais: ["jaune"],
+        },
+        {
+          italien: "azzuro",
+          francais: ["bleu"],
+        },
+        {
+          italien: "chiuso",
+          francais: ["fermé"],
+        },
+        {
+          italien: "chiaro",
+          francais: ["clair"],
+        },
+        {
+          italien: "pieno",
+          francais: ["plein", "rempli"],
+        },
+        {
+          italien: "vuoto",
+          francais: ["vide"],
+        },
+        {
+          italien: "fal bel tempo",
+          francais: ["il fait beau temps"],
+        },
+        {
+          italien: "sembra",
+          francais: ["à l'air"],
+        },
+        {
+          italien: "taglia",
+          francais: ["taille", "mesure"],
+        },
+        {
+          italien: "la torre",
+          francais: ["la tour"],
+        },
+        {
+          italien: "sete",
+          francais: ["soif"],
+        },
+        {
+          italien: "ottimo",
+          francais: ["excellent"],
+        },
+        {
+          italien: "cotto",
+          francais: ["cuit"],
+        },
+        {
+          italien: "contorno",
+          francais: ["accompagnement"],
+        },
+        {
+          italien: "crudo",
+          francais: ["cru"],
+        },
+        {
+          italien: "macedonia",
+          francais: ["salade de fruits"],
+        },
+        {
+          italien: "vorremmo",
+          francais: ["nous voudrions"],
+        },
+        {
+          italien: "vitello",
+          francais: ["veau"],
+        },
+        {
+          italien: "pasto",
+          francais: ["repas"],
+        },
+        {
+          italien: "manzo",
+          francais: ["boeuf"],
+        },
+        {
+          italien: "olio",
+          francais: ["huile"],
+        },
+        {
+          italien: "ricetta",
+          francais: ["recette"],
+        },
+        {
+          italien: "prosciutto",
+          francais: ["jambon"],
+        },
+        {
+          italien: "secondo le mie amiche",
+          francais: ["d'après mes amies"],
+        },
+        {
+          italien: "a doppo",
+          francais: ["à plus tard"],
+        },
+        {
+          italien: "scambio",
+          francais: ["échange"],
+        },
+        {
+          italien: "tutto qui",
+          francais: ["c'est tout"],
+        },
+        {
+          italien: "faccio colazione a casa",
+          francais: ["je prends mon petit-déjeuner chez moi"],
+        },
+        {
+          italien: "amare",
+          francais: ["aimer"],
+        },
+        {
+          italien: "un braccio",
+          francais: ["un bras"],
+        },
+        {
+          italien: "la gamba",
+          francais: ["la jambe"],
+        },
+        {
+          italien: "la mano",
+          francais: ["la main"],
+        },
+        {
+          italien: "naso",
+          francais: ["nez"],
+        },
+        {
+          italien: "viso",
+          francais: ["visage"],
+        },
+        {
+          italien: "barba",
+          francais: ["barbe"],
+        },
+        {
+          italien: "piede",
+          francais: ["pied"],
+        },
+        {
+          italien: "testa",
+          francais: ["tête"],
+        },
+        {
+          italien: "male",
+          francais: ["mal"],
+        },
+        {
+          italien: "il sangue",
+          francais: ["le sang"],
+        },
+
+        {
+          italien: "dieta",
+          francais: ["régime"],
+        },
+        {
+          italien: "destro",
+          francais: ["droit"],
+        },
+        {
+          italien: "fazzoletto",
+          francais: ["mouchoir"],
+        },
+        {
+          italien: "pelle",
+          francais: ["peau", "cuir"],
+        },
+        {
+          italien: "orecchio",
+          francais: ["oreille"],
+        },
+        {
+          italien: "dito",
+          francais: ["doigt"],
+        },
+        {
+          italien: "la dita",
+          francais: ["les doigts"],
+        },
+        {
+          italien: "sinistro",
+          francais: ["gauche"],
+        },
+        {
+          italien: "metterci",
+          francais: ["y mettre"],
+        },
+        {
+          italien: "un mese",
+          francais: ["un mois"],
+        },
+        {
+          italien: "costruire",
+          francais: ["construire"],
+        },
+        {
+          italien: "messo",
+          francais: ["mis"],
+        },
+        {
+          italien: "era",
+          francais: ["était"],
+        },
+        {
+          italien: "erano",
+          francais: ["étaient"],
+        },
+        {
+          italien: "utilizzare",
+          francais: ["utiliser"],
+        },
+        {
+          italien: "segretario",
+          francais: ["secrétaire"],
+        },
+        {
+          italien: "qualche",
+          francais: ["quelques"],
+        },
+        {
+          italien: "raffreddore",
+          francais: ["rhume"],
+        },
+        {
+          italien: "acqua in bocca",
+          francais: ["bouche cousue"],
+        },
+        {
+          italien: "proprio adesso",
+          francais: ["à ce moment même"],
+        },
+        {
+          italien: "essere in gamba",
+          francais: ["être en forme"],
+        },
+        {
+          italien: "va alla testa",
+          francais: ["monte à la tête"],
+        },
+        {
+          italien: "essere tutt'orecchi",
+          francais: ["être tout ouïe"],
+        },
+        {
+          italien: "mi fa male la testa",
+          francais: ["j'ai mal à la tête"],
+        },
+        {
+          italien: "ho dieci chilometri nelle gambe",
+          francais: ["j'ai dix kilomètres dans les jambes"],
+        },
+        {
+          italien: "una volta alla settimana",
+          francais: ["une fois par semaine"],
+        },
+        {
+          italien: "facciamo alle due?",
+          francais: ["on se dit à deux heures?"],
+        },
+        {
+          italien: "stare in piedi",
+          francais: ["rester debout"],
+        },
+        {
+          italien: "il naso chiuso",
+          francais: ["le nez bouché"],
+        },
+        {
+          italien: "ci vuole",
+          francais: ["il faut"],
+        },
+        {
+          italien: "ci metto",
+          francais: ["je mets"],
+        },
+        {
+          italien: "ci ho messo",
+          francais: ["j'ai mis"],
+        },
+        {
+          italien: "la segretaria non c'è",
+          francais: ["la secrétaire n'est pas là"],
+        },
+        {
+          italien: "un bel po'",
+          francais: ["un bon bout de temps"],
+        },
+
+        {
+          italien: "vado per i quaranta",
+          francais: ["je vais vers mes quarante ans"],
+        },
+        {
+          italien: "anzi",
+          francais: ["au contraire", "ou mieux", "ou plutôt"],
+        },
+        {
+          italien: "rossetto",
+          francais: ["rouge à lèvres"],
+        },
+        {
+          italien: "rasoio",
+          francais: ["rasoir"],
+        },
+        {
+          italien: "mostrare",
+          francais: ["montrer"],
+        },
+        {
+          italien: "prestare",
+          francais: ["prêter"],
+        },
+        {
+          italien: "che cosa",
+          francais: ["que", "quoi"],
+        },
+        {
+          italien: "inviare",
+          francais: ["envoyer"],
+        },
+        {
+          italien: "regalare",
+          francais: ["offrir"],
+        },
+        {
+          italien: "condominio",
+          francais: ["copropriété"],
+        },
+        {
+          italien: "ingresso",
+          francais: ["entrée"],
+        },
+        {
+          italien: "stanza",
+          francais: ["pièce", "chambre"],
+        },
+        {
+          italien: "cortile",
+          francais: ["cour"],
+        },
+        {
+          italien: "affitare",
+          francais: ["louer"],
+        },
+        {
+          italien: "piano",
+          francais: ["étage", "doucement", "plan"],
+        },
+        {
+          italien: "bagno",
+          francais: ["toilettes", "bain"],
+        },
+        {
+          italien: "cancello",
+          francais: ["grille"],
+        },
+        {
+          italien: "balcone",
+          francais: ["balcon"],
+        },
+        {
+          italien: "entrare",
+          francais: ["entrer"],
+        },
+        {
+          italien: "entrata",
+          francais: ["entrée"],
+        },
+        {
+          italien: "terrazza",
+          francais: ["terrasse"],
+        },
+        {
+          italien: "scala",
+          francais: ["escalier", "échelle"],
+        },
+        {
+          italien: "tetto",
+          francais: ["toit"],
+        },
+        {
+          italien: "caduto",
+          francais: ["tombé"],
+        },
+        {
+          italien: "soffitta",
+          francais: ["grenier"],
+        },
+        {
+          italien: "ascensore",
+          francais: ["ascenseur"],
+        },
+        {
+          italien: "portone",
+          francais: ["porte d'entrée"],
+        },
+        {
+          italien: "cantina",
+          francais: ["cave"],
+        },
+        {
+          italien: "tappeto",
+          francais: ["tapis"],
+        },
+        {
+          italien: "soggiorno",
+          francais: ["séjour"],
+        },
+        {
+          italien: "l'affitto",
+          francais: ["le loyer"],
+        },
+        {
+          italien: "inquilino",
+          francais: ["locataire"],
+        },
+        {
+          italien: "poltrona",
+          francais: ["fauteil"],
+        },
+        {
+          italien: "luminoso",
+          francais: ["lumineux"],
+        },
+        {
+          italien: "buio",
+          francais: ["sombre"],
+        },
+        {
+          italien: "comodino",
+          francais: ["table de chevet"],
+        },
+        {
+          italien: "pavimento",
+          francais: ["sol"],
+        },
+        {
+          italien: "coperta",
+          francais: ["couverture", "couverte"],
+        },
+        {
+          italien: "lampada",
+          francais: ["lampe"],
+        },
+        {
+          italien: "un lenzuolo",
+          francais: ["un drap"],
+        },
+        {
+          italien: "delle lenzuola",
+          francais: ["des draps"],
+        },
+        {
+          italien: "corridoio",
+          francais: ["couloir"],
+        },
+        {
+          italien: "stanza da bagno",
+          francais: ["salle de bain"],
+        },
+        {
+          italien: "stanza da pranzo",
+          francais: ["salle à manger"],
+        },
+        {
+          italien: "le finestre guardano sul cortile",
+          francais: ["les fenêtres donnent sur la cour"],
+        },
+        {
+          italien: "entrate",
+          francais: ["entrées"],
+        },
+        {
+          italien: "affittasi",
+          francais: ["à louer"],
+        },
+        {
+          italien: "rimasto",
+          francais: ["resté"],
+        },
+        {
+          italien: "bloccata",
+          francais: ["bloquée"],
+        },
+        {
+          italien: "svegliare",
+          francais: ["réveiller"],
+        },
+        {
+          italien: "doccia",
+          francais: ["douche"],
+        },
+        {
+          italien: "riposare",
+          francais: ["reposer"],
+        },
+        {
+          italien: "ricordare",
+          francais: ["se rappeler", "se souvenir"],
+        },
+        {
+          italien: "occupare",
+          francais: ["occuper"],
+        },
+        {
+          italien: "baciare",
+          francais: ["embrasser"],
+        },
+        {
+          italien: "chiamare",
+          francais: ["appeler"],
+        },
+        {
+          italien: "regione",
+          francais: ["région"],
+        },
+        {
+          italien: "settentrionale",
+          francais: ["du Nord"],
+        },
+        {
+          italien: "capoluogo",
+          francais: ["chef-lieu"],
+        },
+        {
+          italien: "mediterraneo",
+          francais: ["méditerranée"],
+        },
+        {
+          italien: "spiaggia",
+          francais: ["plage"],
+        },
+        {
+          italien: "collina",
+          francais: ["colline"],
+        },
+        {
+          italien: "meridionale",
+          francais: ["méridionale"],
+        },
+        {
+          italien: "porto",
+          francais: ["port"],
+        },
+        {
+          italien: "la nave",
+          francais: ["bateau", "navire"],
+        },
+        {
+          italien: "le navi",
+          francais: ["les bateaux"],
+        },
+        {
+          italien: "adriatico",
+          francais: ["adriatique"],
+        },
+        {
+          italien: "ci rivediamo",
+          francais: ["à bientôt"],
+        },
+        {
+          italien: "si sposa",
+          francais: ["s'harmonise"],
+        },
+        {
+          italien: "sposare",
+          francais: ["se marier"],
+        },
+        {
+          italien: "il mio stesso",
+          francais: ["le même que moi"],
+        },
+        {
+          italien: "passata",
+          francais: ["passée"],
+        },
+        {
+          italien: "marzo",
+          francais: ["mars"],
+        },
+        {
+          italien: "inverno",
+          francais: ["hiver"],
+        },
+        {
+          italien: "capodanno",
+          francais: ["jour de l'an"],
+        },
+        {
+          italien: "febbraio",
+          francais: ["février"],
+        },
+        {
+          italien: "aprile",
+          francais: ["avril"],
+        },
+        {
+          italien: "gennaio",
+          francais: ["janvier"],
+        },
+        {
+          italien: "dicembre",
+          francais: ["décembre"],
+        },
+        {
+          italien: "primavera",
+          francais: ["printemps"],
+        },
+
+        {
+          italien: "maggio",
+          francais: ["mai"],
+        },
+        {
+          italien: "agosto",
+          francais: ["août"],
+        },
+        {
+          italien: "giorno festivo",
+          francais: ["jour férié"],
+        },
+        {
+          italien: "settembre",
+          francais: ["septembre"],
+        },
+        {
+          italien: "giugno",
+          francais: ["juin"],
+        },
+        {
+          italien: "ferragosto",
+          francais: ["15 août"],
+        },
+        {
+          italien: "periodo",
+          francais: ["période"],
+        },
+        {
+          italien: "la stagione",
+          francais: ["la saison"],
+        },
+        {
+          italien: "le stagioni",
+          francais: ["les saisons"],
+        },
+        {
+          italien: "ottobre",
+          francais: ["octobre"],
+        },
+        {
+          italien: "calendario",
+          francais: ["calendrier"],
+        },
+        {
+          italien: "autunno",
+          francais: ["automne"],
+        },
+        {
+          italien: "tradizionale",
+          francais: ["traditionnelle"],
+        },
+        {
+          italien: "le uova",
+          francais: ["les oeufs"],
+        },
+        {
+          italien: "arancione",
+          francais: ["orange"],
+        },
+        {
+          italien: "pasque",
+          francais: ["pâques"],
+        },
+        {
+          italien: "decorare",
+          francais: ["décorer"],
+        },
+        {
+          italien: "zucca",
+          francais: ["courge", "citrouille"],
+        },
+        {
+          italien: "un leone",
+          francais: ["un lion"],
+        },
+        {
+          italien: "lupo",
+          francais: ["loup"],
+        },
+        {
+          italien: "una scimmia",
+          francais: ["un singe"],
+        },
+        {
+          italien: "una zebra",
+          francais: ["un zèbre"],
+        },
+        {
+          italien: "un gorilla",
+          francais: ["un gorille"],
+        },
+        {
+          italien: "dei gorilla",
+          francais: ["des gorilles"],
+        },
+        {
+          italien: "una giraffa",
+          francais: ["une giraffe"],
+        },
+        {
+          italien: "una tigre",
+          francais: ["un tigre"],
+        },
+        {
+          italien: "le tigri",
+          francais: ["les tigres"],
+        },
+        {
+          italien: "documentario",
+          francais: ["documentaire"],
+        },
+        {
+          italien: "un asino",
+          francais: ["un âne"],
+        },
+        {
+          italien: "una anatra",
+          francais: ["un canard", "une cane"],
+        },
+        {
+          italien: "gallo",
+          francais: ["coq"],
+        },
+        {
+          italien: "oca",
+          francais: ["oie"],
+        },
+        {
+          italien: "oche",
+          francais: ["oies"],
+        },
+        {
+          italien: "mucca",
+          francais: ["vache"],
+        },
+        {
+          italien: "mucche",
+          francais: ["vaches"],
+        },
+        {
+          italien: "una fattoria",
+          francais: ["une ferme"],
+        },
+        {
+          italien: "pecora",
+          francais: ["mouton", "brebis"],
+        },
+        {
+          italien: "selvaggio",
+          francais: ["sauvage"],
+        },
+        {
+          italien: "vespa",
+          francais: ["guêpe"],
+        },
+        {
+          italien: "puntura",
+          francais: ["piqûre"],
+        },
+        {
+          italien: "una zanzara",
+          francais: ["un moustique"],
+        },
+        {
+          italien: "une mosca",
+          francais: ["une mouche"],
+        },
+        {
+          italien: "mosche",
+          francais: ["mouches"],
+        },
+        {
+          italien: "una rondine",
+          francais: ["une hirondelle"],
+        },
+        {
+          italien: "cinghiale",
+          francais: ["sanglier"],
+        },
+        {
+          italien: "la panca",
+          francais: ["le banc"],
+        },
+        {
+          italien: "spostare",
+          francais: ["déplacer"],
+        },
+        {
+          italien: "l'ennisma volta",
+          francais: ["l'énième fois"],
+        },
+        {
+          italien: "controllare",
+          francais: ["vérifier", "contrôler"],
+        },
+        {
+          italien: "la parete",
+          francais: ["le mur"],
+        },
+        {
+          italien: "un'occhiata",
+          francais: ["un coup d'oeil"],
+        },
+        {
+          italien: "lanciare",
+          francais: ["lancer"],
+        },
+        {
+          italien: "la porta scorrevole",
+          francais: ["la porte coulissante"],
+        },
+        {
+          italien: "passegino",
+          francais: ["poussette"],
+        },
+        {
+          italien: "esauta",
+          francais: ["épuisée"],
+        },
+        {
+          italien: "una bella dormita",
+          francais: ["une bonne nuit de sommeil"],
+        },
+        {
+          italien: "mezz'ora",
+          francais: ["demie-heure"],
+        },
+        {
+          italien: "cuore",
+          francais: ["coeur"],
+        },
+        {
+          italien: "martellare",
+          francais: ["marteller"],
+        },
+        {
+          italien: "la gola",
+          francais: ["la gorge"],
+        },
+        {
+          italien: "binario",
+          francais: ["voie", "quai"],
+        },
+        {
+          italien: "viaggiatori",
+          francais: ["voyageurs"],
+        },
+        {
+          italien: "raggiungere",
+          francais: ["atteindre", "rejoindre"],
+        },
+        {
+          italien: "prestare attenzione",
+          francais: ["porter attention"],
+        },
+        {
+          italien: "bagagli",
+          francais: ["bagages"],
+        },
+        {
+          italien: "propri",
+          francais: ["leurs propres", "les leurs"],
+        },
+        {
+          italien: "appeso",
+          francais: ["accroché"],
+        },
+        {
+          italien: "urlanti",
+          francais: ["hurlants"],
+        },
+        {
+          italien: "non ha smesso",
+          francais: ["n'a pas arrêté"],
+        },
+        {
+          italien: "il labbro",
+          francais: ["la lèvre"],
+        },
+        {
+          italien: "mordere",
+          francais: ["mordre"],
+        },
+        {
+          italien: "mandare",
+          francais: ["envoyer"],
+        },
+        {
+          italien: "il quinto",
+          francais: ["le cinquième"],
+        },
+        {
+          italien: "aveva",
+          francais: ["avait"],
+        },
+        {
+          italien: "avevano",
+          francais: ["avaient"],
+        },
+        {
+          italien: "appuntamento",
+          francais: ["rdv"],
+        },
+        {
+          italien: "vedendo",
+          francais: ["voyant"],
+        },
+        {
+          italien: "convinto",
+          francais: ["convaincu"],
+        },
+        {
+          italien: "terzo",
+          francais: ["troisième"],
+        },
+        {
+          italien: "quarto",
+          francais: ["quatrième"],
+        },
+        {
+          italien: "in attessa",
+          francais: ["en attente"],
+        },
+        {
+          italien: "l'arrivo",
+          francais: ["l'arrivée"],
+        },
+        {
+          italien: "vibrazione",
+          francais: ["vibration"],
+        },
+        {
+          italien: "tesoro",
+          francais: ["trésor"],
+        },
+        {
+          italien: "dei casini",
+          francais: ["des emmerdes"],
+        },
+        {
+          italien: "fissare",
+          francais: ["fixer"],
+        },
+        {
+          italien: "incredula",
+          francais: ["incrédule"],
+        },
+        {
+          italien: "sconvolta",
+          francais: ["bouleversée", "contrariée"],
+        },
+        {
+          italien: "arrabiata",
+          francais: ["en colère", "fâchée", "énervée"],
+        },
+        {
+          italien: "digitare",
+          francais: ["saisir"],
+        },
+        {
+          italien: "attrezzature",
+          francais: ["équipement"],
+        },
+        {
+          italien: "immersioni",
+          francais: ["plongée"],
+        },
+        {
+          italien: "sperare",
+          francais: ["espérer"],
+        },
+        {
+          italien: "vittima",
+          francais: ["victime"],
+        },
+        {
+          italien: "scherzo",
+          francais: ["farce", "canular", "blague"],
+        },
+        {
+          italien: "stuzzicare",
+          francais: ["taquiner"],
+        },
+        {
+          italien: "la guancia",
+          francais: ["la joue"],
+        },
+        {
+          italien: "trattenuta",
+          francais: ["retenue"],
+        },
+        {
+          italien: "ostinatamente",
+          francais: ["obstinément"],
+        },
+        {
+          italien: "il controllore",
+          francais: ["le contrôleur"],
+        },
+        {
+          italien: "allungare",
+          francais: ["étirer", "allonger", "tendre"],
+        },
+        {
+          italien: "esitazione",
+          francais: ["hésitation"],
+        },
+        {
+          italien: "ritrovare",
+          francais: ["retrouver"],
+        },
+        {
+          italien: "confusa",
+          francais: ["confuse"],
+        },
+        {
+          italien: "la folta",
+          francais: ["la foule"],
+        },
+        {
+          italien: "rumorosamente",
+          francais: ["bruyamment"],
+        },
+        {
+          italien: "gita",
+          francais: ["excursion", "voyage", "sortie"],
+        },
+        {
+          italien: "si tratta",
+          francais: ["il s'agit"],
+        },
+        {
+          italien: "stipate",
+          francais: ["entassées"],
+        },
+        {
+          italien: "aziendale",
+          francais: ["d'entreprise"],
+        },
+        {
+          italien: "la routine",
+          francais: ["la routine"],
+        },
+        {
+          italien: "di bevute",
+          francais: ["de beuverie"],
+        },
+        {
+          italien: "smaltire la sbornia",
+          francais: ["dessoûler"],
+        },
+        {
+          italien: "malconcio",
+          francais: ["amoché", "abimé", "mal en point"],
+        },
+        {
+          italien: "sopravvivere",
+          francais: ["survivre"],
+        },
+        {
+          italien: "mancata",
+          francais: ["manquée"],
+        },
+        {
+          italien: "esterrefatta",
+          francais: ["consternée", "stupéfaite"],
+        },
+        {
+          italien: "ostello della gioventù",
+          francais: ["auberge de jeunesse"],
+        },
+        {
+          italien: "sfigato",
+          francais: ["loser", "perdant"],
+        },
+        {
+          italien: "coglione",
+          francais: ["con", "crétin", "abruti"],
+        },
+        {
+          italien: "sbagliare",
+          francais: ["se tromper"],
+        },
+        {
+          italien: "evidentemente",
+          francais: ["évidemment"],
+        },
+        {
+          italien: "coincidere",
+          francais: ["coïncider"],
+        },
+        {
+          italien: "vago",
+          francais: ["vague"],
+        },
+        {
+          italien: "un gesto vago",
+          francais: ["un geste vague"],
+        },
+        {
+          italien: "sconto",
+          francais: ["réduction", "remise", "rabais"],
+        },
+        {
+          italien: "usufruire",
+          francais: ["profiter", "bénéficier"],
+        },
+        {
+          italien: "pianificato",
+          francais: ["planifié"],
+        },
+        {
+          italien: "pianificare",
+          francais: ["planifier"],
+        },
+        {
+          italien: "cura",
+          francais: ["soin"],
+        },
+        {
+          italien: "individuare",
+          francais: ["indentifier", "trouver"],
+        },
+        {
+          italien: "setacciare",
+          francais: ["fouiller", "parcourir", "ratisser"],
+        },
+        {
+          italien: "spulciare",
+          francais: ["éplucher", "feuilleter"],
+        },
+        {
+          italien: "alla ricerca",
+          francais: ["à la recherche"],
+        },
+        {
+          italien: "risultati",
+          francais: ["résultats"],
+        },
+        {
+          italien: "rispostare",
+          francais: ["ramener", "remettre", "rapporter"],
+        },
+        {
+          italien: "ciascuno",
+          francais: ["chacun"],
+        },
+        {
+          italien: "incrociare",
+          francais: ["croiser", "comparer"],
+        },
+        {
+          italien: "posticino",
+          francais: ["endroit", "petit coin"],
+        },
+        {
+          italien: "accogliente",
+          francais: ["acceuillant"],
+        },
+        {
+          italien: "essatamente",
+          francais: ["exactement"],
+        },
+        {
+          italien: "stereotipi",
+          francais: ["stéréotypes"],
+        },
+        {
+          italien: "escludere",
+          francais: ["exclure"],
+        },
+        {
+          italien: "un tale",
+          francais: ["un tel"],
+        },
+        {
+          italien: "precisare",
+          francais: ["préciser"],
+        },
+        {
+          italien: "disposto",
+          francais: ["disposé"],
+        },
+        {
+          italien: "avventuroso",
+          francais: ["aventureux"],
+        },
+        {
+          italien: "giramondo",
+          francais: ["globe-trotteur"],
+        },
+        {
+          italien: "puntare",
+          francais: ["viser", "pointer", "miser"],
+        },
+        {
+          italien: "l'aspetto fisico",
+          francais: ["l'aspect physique"],
+        },
+        {
+          italien: "giudozio",
+          francais: ["jugement"],
+        },
+        {
+          italien: "guidoziosa",
+          francais: ["judicieuse"],
+        },
+        {
+          italien: "dettaglio",
+          francais: ["détail"],
+        },
+        {
+          italien: "attentamente",
+          francais: ["attentivement"],
+        },
+        {
+          italien: "incarico",
+          francais: ["mission", "poste"],
+        },
+        {
+          italien: "innafiare",
+          francais: ["arroser"],
+        },
+        {
+          italien: "badare",
+          francais: ["prendre soin", "s'occuper"],
+        },
+        {
+          italien: "sicurezza",
+          francais: ["sécurité", "sûreté"],
+        },
+        {
+          italien: "scappare",
+          francais: ["fuir", "s'échapper"],
+        },
+        {
+          italien: "man mano",
+          francais: ["au fur et à mesure"],
+        },
+        {
+          italien: "provare gusto",
+          francais: ["prendre goût"],
+        },
+        {
+          italien: "smalto",
+          francais: ["vernis"],
+        },
+        {
+          italien: "unghie",
+          francais: ["ongles"],
+        },
+        {
+          italien: "in coro",
+          francais: ["en coeur"],
+        },
+        {
+          italien: "ti invidio",
+          francais: ["je t'envie"],
+        },
+        {
+          italien: "invidiare",
+          francais: ["envier"],
+        },
+        {
+          italien: "contrariamente",
+          francais: ["contrairement"],
+        },
+        {
+          italien: "antipatico",
+          francais: ["antipathique"],
+        },
+        {
+          italien: "due anni fa",
+          francais: ["il y a deux ans"],
+        },
+        {
+          italien: "devo lavorare fino alle cinque",
+          francais: ["je dois travailler jusqu'à cinq heures"],
+        },
+        {
+          italien: "mattino",
+          francais: ["matin"],
+        },
+        {
+          italien: "martedi",
+          francais: ["mardi"],
+        },
+        {
+          italien: "mercoledi",
+          francais: ["mercredi"],
+        },
+        {
+          italien: "pomeriggio",
+          francais: ["après-midi"],
+        },
+        {
+          italien: "serata",
+          francais: ["soirée"],
+        },
+        {
+          italien: "giovedi",
+          francais: ["jeudi"],
+        },
+        {
+          italien: "giornata",
+          francais: ["journée"],
+        },
+        {
+          italien: "stanotte",
+          francais: ["cette nuit"],
+        },
+        {
+          italien: "dopodomani",
+          francais: ["après-demain"],
+        },
+        {
+          italien: "epoca",
+          francais: ["époque"],
+        },
+        {
+          italien: "quarto",
+          francais: ["quart"],
+        },
+        {
+          italien: "secolo",
+          francais: ["siècle"],
+        },
+        {
+          italien: "mezzo",
+          francais: ["demi", "milieu", "moyen"],
+        },
+        {
+          italien: "con chi",
+          francais: ["avec qui"],
+        },
+        {
+          italien: "a chi",
+          francais: ["à qui"],
+        },
+        {
+          italien: "un compito",
+          francais: ["un devoir"],
+        },
+        {
+          italien: "tipo",
+          francais: ["genre", "type"],
+        },
+        {
+          italien: "regalato",
+          francais: ["offert"],
+        },
+        {
+          italien: "mostrato",
+          francais: ["montré"],
+        },
+        {
+          italien: "al giorno d'oggi",
+          francais: ["au jour d'aujourd'hui"],
+        },
+        {
+          italien: "che storie sono queste",
+          francais: ["qu'est-ce que c'est que ces histoires"],
+        },
+        {
+          italien: "che oro sono",
+          francais: ["quelle heure est-il"],
+        },
+        {
+          italien: "proprio in quel momento",
+          francais: ["jusqu'à ce moment là"],
+        },
+        {
+          italien: "l'altro ieri",
+          francais: ["avant-hier"],
+        },
+        {
+          italien: "una giornata di sole",
+          francais: ["une journée ensoleillée"],
+        },
+        {
+          italien: "a passo deciso",
+          francais: ["à pas décidé"],
+        },
+        {
+          italien: "varcare la soglia",
+          francais: ["franchir le seuil"],
+        },
+        {
+          italien: "impietrita",
+          francais: ["pétrifiée"],
+        },
+        {
+          italien: "non appena",
+          francais: ["dès que"],
+        },
+        {
+          italien: "chioschi",
+          francais: ["kiosques"],
+        },
+        {
+          italien: "un riso in bianco",
+          francais: ["un riz nature"],
+        },
+        {
+          italien: "confermare",
+          francais: ["confirmer"],
+        },
+        {
+          italien: "di prima mattina",
+          francais: ["de bon matin"],
+        },
+        {
+          italien: "marea",
+          francais: ["marrée"],
+        },
+        {
+          italien: "scintillanti",
+          francais: ["scintillants"],
+        },
+        {
+          italien: "scale mobili",
+          francais: ["escalators"],
+        },
+        {
+          italien: "altoparlante",
+          francais: ["haut-parleur"],
+        },
+        {
+          italien: "un annuncio",
+          francais: ["une annonce"],
+        },
+        {
+          italien: "scampanellio",
+          francais: ["tintement", "son joyeux", "carillons"],
+        },
+        {
+          italien: "introdurre",
+          francais: ["introduire"],
+        },
+        {
+          italien: "contrastare",
+          francais: ["lutter contre", "contrer", "combattre"],
+        },
+        {
+          italien: "travolgerer",
+          francais: ["emporter", "submerger", "envahir"],
+        },
+        {
+          italien: "l'insegna",
+          francais: ["l'enseigne"],
+        },
+        {
+          italien: "in code",
+          francais: ["en file d'attente"],
+        },
+        {
+          italien: "importare",
+          francais: ["importer", "préoccuper"],
+        },
+        {
+          italien: "frugare",
+          francais: ["fouiller"],
+        },
+        {
+          italien: "la fila",
+          francais: ["la file"],
+        },
+        {
+          italien: "tassita",
+          francais: ["chauffeur de taxi"],
+        },
+        {
+          italien: "dicendo",
+          francais: ["en disant"],
+        },
+        {
+          italien: "ripetere",
+          francais: ["répéter"],
+        },
+        {
+          italien: "simulare",
+          francais: ["simuler"],
+        },
+        {
+          italien: "sforzare",
+          francais: ["forcer", "efforcer"],
+        },
+        {
+          italien: "sforzandosi",
+          francais: ["s'efforçant"],
+        },
+        {
+          italien: "un accento",
+          francais: ["un accent"],
+        },
+        {
+          italien: "uno sguardo",
+          francais: ["un regard"],
+        },
+        {
+          italien: "rivolgere",
+          francais: ["addresser", "poser", "accorder", "lancer"],
+        },
+        {
+          italien: "stappare",
+          francais: ["arracher"],
+        },
+        {
+          italien: "un instante",
+          francais: ["un instant"],
+        },
+        {
+          italien: "sgarbatamente",
+          francais: ["grossièrement"],
+        },
+        {
+          italien: "restituire",
+          francais: ["restituer"],
+        },
+        {
+          italien: "un sospiro",
+          francais: ["un soupir"],
+        },
+        {
+          italien: "lo schienale",
+          francais: ["le dossier"],
+        },
+        {
+          italien: "appogiare",
+          francais: ["soutenir", "appuyer"],
+        },
+        {
+          italien: "benvenuta",
+          francais: ["bienvenue"],
+        },
+        {
+          italien: "il tragitto",
+          francais: ["le trajet"],
+        },
+        {
+          italien: "costos",
+          francais: ["coûteux", "cher"],
+        },
+        {
+          italien: "saloni di belleza",
+          francais: ["salons de beauté"],
+        },
+        {
+          italien: "sottovoce",
+          francais: ["à voix basse"],
+        },
+        {
+          italien: "le scritte",
+          francais: ["les inscriptions"],
+        },
+        {
+          italien: "edifici",
+          francais: ["édifices"],
+        },
+        {
+          italien: "locali",
+          francais: ["locaux"],
+        },
+        {
+          italien: "tutto andrà bene",
+          francais: ["tout ira bien"],
+        },
+        {
+          italien: "eccessiva",
+          francais: ["excessive"],
+        },
+        {
+          italien: "ansiosa",
+          francais: ["anxieuse"],
+        },
+        {
+          italien: "minaccia",
+          francais: ["menace"],
+        },
+        {
+          italien: "la calma",
+          francais: ["le calme"],
+        },
+        {
+          italien: "inutile",
+          francais: ["inutile"],
+        },
+        {
+          italien: "agitarsi",
+          francais: ["s'agiter"],
+        },
+        {
+          italien: "semplicemente",
+          francais: ["simplement"],
+        },
+        {
+          italien: "copertoni",
+          francais: ["pneus"],
+        },
+        {
+          italien: "fiancata",
+          francais: ["côté", "flanc"],
+        },
+        {
+          italien: "finché",
+          francais: ["jusqu'à ce que"],
+        },
+        {
+          italien: "i soccorsi",
+          francais: ["les secours"],
+        },
+        {
+          italien: "i coccodrilli",
+          francais: ["les crocodiles"],
+        },
+        {
+          italien: "abbronzata",
+          francais: ["bronzée"],
+        },
+        {
+          italien: "innumerevoli",
+          francais: ["innombrables"],
+        },
+        {
+          italien: "esperienze",
+          francais: ["expériences"],
+        },
+        {
+          italien: "scelto",
+          francais: ["choisi"],
+        },
+        {
+          italien: "né",
+          francais: ["ni"],
+        },
+        {
+          italien: "spericolata",
+          francais: ["téméraire"],
+        },
+        {
+          italien: "creare",
+          francais: ["créer"],
+        },
+        {
+          italien: "un becco",
+          francais: ["un bec"],
+        },
+        {
+          italien: "il lobo",
+          francais: ["le lobe"],
+        },
+        {
+          italien: "mimando",
+          francais: ["mimant"],
+        },
+        {
+          italien: "una compagnia",
+          francais: ["une compagne"],
+        },
+        {
+          italien: "rilassante",
+          francais: ["relaxante"],
+        },
+        {
+          italien: "la funzione",
+          francais: ["la fonction"],
+        },
+        {
+          italien: "assorbendo",
+          francais: ["absorbant"],
+        },
+        {
+          italien: "immaginita",
+          francais: ["imaginée"],
+        },
+        {
+          italien: "imponenti",
+          francais: ["imposants"],
+        },
+        {
+          italien: "balcocini",
+          francais: ["petits balcons"],
+        },
+        {
+          italien: "praticamente",
+          francais: ["pratiquement"],
+        },
+        {
+          italien: "complessi di uffici",
+          francais: ["complexes de bureaux"],
+        },
+        {
+          italien: "isolato",
+          francais: ["bloc", "pâté de maison"],
+        },
+        {
+          italien: "tavolini",
+          francais: ["table basse", "tablettes"],
+        },
+        {
+          italien: "rotondi",
+          francais: ["ronds"],
+        },
+        {
+          italien: "addentrarsi",
+          francais: ["pénétrer", "entrer"],
+        },
+        {
+          italien: "chiacchierare",
+          francais: ["discuter", "bavarder", "papoter"],
+        },
+        {
+          italien: "d'un tratto",
+          francais: ["d'un trait", "soudain"],
+        },
+        {
+          italien: "a disposizione",
+          francais: ["à disposition"],
+        },
+        {
+          italien: "rinfrescare",
+          francais: ["rafraichir"],
+        },
+        {
+          italien: "semplice",
+          francais: ["simple"],
+        },
+        {
+          italien: "sprovedutta",
+          francais: ["naïf", "bâcléé"],
+        },
+        {
+          italien: "una parigina",
+          francais: ["une parisienne"],
+        },
+        {
+          italien: "rinfrancata",
+          francais: ["ranimée", "requinquée"],
+        },
+        {
+          italien: "autista",
+          francais: ["chauffeur"],
+        },
+        {
+          italien: "bagagliaio",
+          francais: ["coffre"],
+        },
+        {
+          italien: "nervosamente",
+          francais: ["nerveusement"],
+        },
+        {
+          italien: "banconota",
+          francais: ["billet"],
+        },
+        {
+          italien: "consegnare",
+          francais: ["livrer", "remettre", "donner"],
+        },
+        {
+          italien: "il denaro",
+          francais: ["l'argent"],
+        },
+        {
+          italien: "scuotendo",
+          francais: ["secouant"],
+        },
+        {
+          italien: "truffata",
+          francais: ["arnaquée"],
+        },
+        {
+          italien: "in compenso",
+          francais: ["en revanche"],
+        },
+        {
+          italien: "imbarazzata",
+          francais: ["embarrassée"],
+        },
+        {
+          italien: "proseguire",
+          francais: ["poursuivre", "continuer"],
+        },
+        {
+          italien: "trafelata",
+          francais: ["essouflée"],
+        },
+        {
+          italien: "ricevuta",
+          francais: ["reçu", "récépissé", "facture"],
+        },
+        {
+          italien: "incubo",
+          francais: ["cauchemar", "enfer"],
+        },
+        {
+          italien: "infernale",
+          francais: ["infernal"],
+        },
+        {
+          italien: "l'addetta",
+          francais: ["l'attachée", "la réceptionniste"],
+        },
+        {
+          italien: "una moretta",
+          francais: ["une brune", "une brunette"],
+        },
+        {
+          italien: "gemelli",
+          francais: ["jumeaux"],
+        },
+        {
+          italien: "letto matrimoniale",
+          francais: ["lit double"],
+        },
+        {
+          italien: "inarcare",
+          francais: ["cambrer"],
+        },
+        {
+          italien: "sopracciglio",
+          francais: ["sourcil"],
+        },
+        {
+          italien: "sopracciglia",
+          francais: ["sourcils"],
+        },
+        {
+          italien: "libera",
+          francais: ["libre"],
+        },
+        {
+          italien: "entrambe",
+          francais: ["les deux"],
+        },
+        {
+          italien: "rispettive",
+          francais: ["respectives"],
+        },
+        {
+          italien: "restituire",
+          francais: ["restituer"],
+        },
+        {
+          italien: "al completo",
+          francais: ["au complet"],
+        },
+        {
+          italien: "inconveniente",
+          francais: ["inconvénient"],
+        },
+        {
+          italien: "esclamare",
+          francais: ["exclamer"],
+        },
+        {
+          italien: "incrociando",
+          francais: ["en croisant"],
+        },
+        {
+          italien: "un volo",
+          francais: ["un vol"],
+        },
+        {
+          italien: "servizio",
+          francais: ["service"],
+        },
+        {
+          italien: "indifferenza",
+          francais: ["indifférence"],
+        },
+        {
+          italien: "disinvoltura",
+          francais: ["désinvolture"],
+        },
+        {
+          italien: "affascinante",
+          francais: ["fascinant"],
+        },
+        {
+          italien: "insopportabile",
+          francais: ["insupportable"],
+        },
+        {
+          italien: "diventare",
+          francais: ["devenir"],
+        },
+        {
+          italien: "affari",
+          francais: ["affaires"],
+        },
+        {
+          italien: "di cui",
+          francais: ["dont"],
+        },
+        {
+          italien: "grata",
+          francais: ["reconnaissante"],
+        },
+        {
+          italien: "corregere",
+          francais: ["corriger"],
+        },
+        {
+          italien: "praticare",
+          francais: ["pratiquer"],
+        },
+        {
+          italien: "parlarne",
+          francais: ["en parler"],
+        },
+        {
+          italien: "spero",
+          francais: ["j'espère"],
+        },
+        {
+          italien: "esistere",
+          francais: ["exister"],
+        },
+        {
+          italien: "fare finta di",
+          francais: ["faire semblant de"],
+        },
+
+        {
+          italien: "eravamo",
+          francais: ["nous étions"],
+        },
+        {
+          italien: "tranne",
+          francais: ["sauf"],
+        },
+        {
+          italien: "la manzaca",
+          francais: ["le manque"],
+        },
+        {
+          italien: "dolorosa",
+          francais: ["douloureux"],
+        },
+        {
+          italien: "innamorata",
+          francais: ["amoureuse"],
+        },
+        {
+          italien: "da allora",
+          francais: ["depuis ce moment là"],
+        },
+        {
+          italien: "reagire",
+          francais: ["réagir"],
+        },
+        {
+          italien: "comportamento",
+          francais: ["comportement"],
+        },
+        {
+          italien: "cambiare",
+          francais: ["changer"],
+        },
+        {
+          italien: "gestire",
+          francais: ["gérer", "traiter"],
+        },
+        {
+          italien: "logorante",
+          francais: ["usant"],
+        },
+        {
+          italien: "giustificate",
+          francais: ["justifiée"],
+        },
+        {
+          italien: "garantire",
+          francais: ["garantir"],
+        },
+        {
+          italien: "purtroppo",
+          francais: ["malheureusement"],
+        },
+        {
+          italien: "ad avere",
+          francais: ["à avoir"],
+        },
+        {
+          italien: "farsi la pelle dura",
+          francais: ["se faire la peau dure"],
+        },
+        {
+          italien: "una corazza",
+          francais: ["une carapace"],
+        },
+        {
+          italien: "corretta",
+          francais: ["correcte"],
+        },
+        {
+          italien: "l'azione",
+          francais: ["l'action"],
+        },
+        {
+          italien: "richiedere",
+          francais: ["demander", "exiger", "nécessiter"],
+        },
+        {
+          italien: "oggetto",
+          francais: ["object"],
+        },
+        {
+          italien: "soggetto",
+          francais: ["sujet"],
+        },
+        {
+          italien: "impiegata",
+          francais: ["employée"],
+        },
+        {
+          italien: "protendere",
+          francais: ["étendre"],
+        },
+        {
+          italien: "ribattere",
+          francais: ["repousser", "insister"],
+        },
+        {
+          italien: "mettendole",
+          francais: ["en les mettant"],
+        },
+        {
+          italien: "consapevole",
+          francais: ["consicents"],
+        },
+        {
+          italien: "tenere fede",
+          francais: ["respecter", "honorer", "faire honneur"],
+        },
+        {
+          italien: "spalle",
+          francais: ["dos", "épaules"],
+        },
+        {
+          italien: "sistemazione",
+          francais: ["hébergement", "logement"],
+        },
+        {
+          italien: "sconosciuta",
+          francais: ["inconnue"],
+        },
+        {
+          italien: "atterrare",
+          francais: ["atterir"],
+        },
+        {
+          italien: "diversa",
+          francais: ["différente"],
+        },
+        {
+          italien: "assicurare",
+          francais: ["assurer", "garantir"],
+        },
+        {
+          italien: "sostenere",
+          francais: ["soutenir;appuyer"],
+        },
+        {
+          italien: "concezione",
+          francais: ["cconception;concept;vision"],
+        },
+        {
+          italien: "genere",
+          francais: ["genre;type;sorte"],
+        },
+        {
+          italien: "esigere",
+          francais: ["exiger"],
+        },
+        {
+          italien: "aggiungere",
+          francais: ["ajouter", "dire", "apporter", "rajouter"],
+        },
+        {
+          italien: "comunque",
+          francais: ["cependant"],
+        },
+        {
+          italien: "faccenda",
+          francais: ["affaire", "histoire", "problème"],
+        },
+        {
+          italien: "vergognosa",
+          francais: ["honteuse"],
+        },
+        {
+          italien: "vita breve",
+          francais: ["vie courte", "brève vie"],
+        },
+        {
+          italien: "a disagio",
+          francais: ["mal à l'aise", "inconfortable"],
+        },
+        {
+          italien: "riuscito",
+          francais: ["réussi"],
+        },
+        {
+          italien: "mettersi",
+          francais: ["se mettre"],
+        },
+        {
+          italien: "in presenza",
+          francais: ["en présence"],
+        },
+        {
+          italien: "obbligata",
+          francais: ["obligée"],
+        },
+        {
+          italien: "allontanarsi",
+          francais: ["s'éloigner", "s'écarter"],
+        },
+        {
+          italien: "mi fai sentire",
+          francais: ["tu me fais sentir"],
+        },
+        {
+          italien: "esclusa",
+          francais: ["exclue"],
+        },
+        {
+          italien: "stare da sola",
+          francais: ["être seule"],
+        },
+        {
+          italien: "piuttosto",
+          francais: ["plutôt"],
+        },
+        {
+          italien: "indietro",
+          francais: ["en arrière"],
+        },
+        {
+          italien: "successo",
+          francais: ["succès", "passé"],
+        },
+        {
+          italien: "almeno",
+          francais: ["au moins"],
+        },
+        {
+          italien: "ci vorrà",
+          francais: ["il faudra", "ça va prendre"],
+        },
+        {
+          italien: "sbufffare",
+          francais: ["renifler", "soupirer"],
+        },
+        {
+          italien: "sistemare",
+          francais: ["arranger"],
+        },
+        {
+          italien: "impadronirsi",
+          francais: ["s'emparer"],
+        },
+        {
+          italien: "grucce",
+          francais: ["cintres", "béquilles"],
+        },
+        {
+          italien: "scortese",
+          francais: ["impoli", "grossier"],
+        },
+        {
+          italien: "godere",
+          francais: ["profiter", "jouir", "apprécier"],
+        },
+        {
+          italien: "adempimento",
+          francais: ["exécution", "grazzie di nuovo"],
+        },
+        {
+          italien: "encore merci",
+          francais: ["facciamo come tutti"],
+        },
+        {
+          italien: "faisons comme tout le monde",
+          francais: ["succedere"],
+        },
+        {
+          italien: "se produire",
+          francais: ["per essere straniera"],
+        },
+      ];
+
+      let motsUtilises = [];
+      let currentWord;
+      let isItToFr = true; // Variable to track direction of translation (italien -> français or français -> italien)
+
+      function getRandomWord() {
+        if (vocabulaire.length === 0) {
+          document.getElementById("word-to-translate").innerText =
+            "Tu as révisé tous les mots !";
+          return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * vocabulaire.length);
+        currentWord = vocabulaire[randomIndex];
+        motsUtilises.push(currentWord);
+        vocabulaire.splice(randomIndex, 1);
+
+        // Randomly decide if the translation will be from Italian to French or vice-versa
+        isItToFr = Math.random() >= 0.5;
+
+        if (isItToFr) {
+          document.getElementById("word-to-translate").innerText =
+            currentWord.italien; // Show the Italian word
+        } else {
+          document.getElementById("word-to-translate").innerText =
+            currentWord.francais; // Show the French word
+        }
+      }
+
+      function checkAnswer() {
+        const userAnswer = document
+          .getElementById("user-input")
+          .value.toLowerCase()
+          .trim();
+        let correctAnswers;
+
+        if (isItToFr) {
+          // Si 'francais' est un tableau, on applique .map(), sinon on le transforme en tableau d'une seule valeur
+          if (Array.isArray(currentWord.francais)) {
+            correctAnswers = currentWord.francais.map((ans) =>
+              ans.toLowerCase()
+            );
+          } else {
+            correctAnswers = [currentWord.francais.toLowerCase()];
+          }
+        } else {
+          correctAnswers = [currentWord.italien.toLowerCase()];
+        }
+
+        if (correctAnswers.includes(userAnswer)) {
+          document.getElementById("result").innerText = "Correct !";
+          document.getElementById("result").className = "correct";
+        } else {
+          document.getElementById(
+            "result"
+          ).innerText = `Faux ! Les bonnes réponses étaient : ${correctAnswers.join(
+            ", "
+          )}`;
+          document.getElementById("result").className = "wrong";
+        }
+
+        document.getElementById("user-input").value = "";
+        getRandomWord();
+      }
+
+      // Initialiser avec un premier mot
+      getRandomWord();
+    </script>
+  </body>
+</html>
