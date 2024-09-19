@@ -1,124 +1,127 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Révision du vocabulaire italien</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
 
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #0077cc;
+      }
+
+      #word-to-translate {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      input {
+        width: calc(
+          100% - 20px
+        ); /* Réduit la largeur totale pour éviter le débordement */
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur totale */
+      }
+
+      button {
+        background-color: #0077cc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #005fa3;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      #result.correct {
+        color: green;
+      }
+
+      #result.wrong {
+        color: red;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
+          width: 90%;
         }
 
         h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #0077cc;
-        }
-
-        #word-to-translate {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+          font-size: 20px;
         }
 
         button {
-            background-color: #0077cc;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+          padding: 8px 16px;
+          font-size: 14px;
         }
 
-        button:hover {
-            background-color: #005fa3;
+        input {
+          padding: 8px;
+          font-size: 14px;
         }
-
-        #result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        #result.correct {
-            color: green;
-        }
-
-        #result.wrong {
-            color: red;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            button {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-
-            input {
-                padding: 8px;
-                font-size: 14px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Révise ton vocabulaire italien</h1>
-        <p id="word-to-translate"></p>
-        <input type="text" id="user-input" placeholder="Traduction">
-        <button onclick="checkAnswer()">Vérifier</button>
-        <p id="result"></p>
+      <h1>Révise ton vocabulaire italien</h1>
+      <p id="word-to-translate"></p>
+      <input type="text" id="user-input" placeholder="Traduction" />
+      <button onclick="checkAnswer()">Vérifier</button>
+      <p id="result"></p>
     </div>
 
     <script>
-        const vocabulaire = [
-                { italien: "avvicinare", francais: "approcher" },
+      const vocabulaire = [
+        { italien: "avvicinare", francais: "approcher" },
         { italien: "paesaggio", francais: "paysage" },
         { italien: "fretta", francais: "pressée" },
         { italien: "pietra", francais: "pierre" },
         { italien: "vaso", francais: "vase" },
-            { italien: "sugo", francais: "sauce" },
+        { italien: "sugo", francais: "sauce" },
         { italien: "davanti", francais: "devant" },
         { italien: "giovane", francais: "jeune" },
         { italien: "trentina", francais: "trentaine" },
         { italien: "rispondere", francais: "répondre" },
-             {
+        {
           italien: "subito",
           francais: "de suite",
         },
@@ -270,59 +273,347 @@
           italien: "lasciare",
           francais: "laisser",
         },
+        {
+          italien: "pure",
+          francais: ["aussi", "également", "même"],
+        },
+        {
+          italien: "in effeti",
+          francais: ["en effet"],
+        },
+        {
+          italien: "stranieri",
+          francais: ["étrangers"],
+        },
+        {
+          italien: "salumi",
+          francais: ["charcuterie"],
+        },
+        {
+          italien: "brindare",
+          francais: ["trinquer"],
+        },
+        {
+          italien: "vestito",
+          francais: ["robe", "costume", "tenue:vêtement"],
+        },
+        {
+          italien: "camicia",
+          francais: ["chemise"],
+        },
+        {
+          italien: "la prenotazione",
+          francais: ["la réservation"],
+        },
+        {
+          italien: "fa caldo",
+          francais: ["il fait chaud"],
+        },
+        {
+          italien: "piove",
+          francais: ["il pleut"],
+        },
+        {
+          italien: "spesso",
+          francais: ["souvent"],
+        },
+        {
+          italien: "a chiave",
+          francais: ["à clé"],
+        },
+        {
+          italien: "ho capito",
+          francais: ["j'ai compris"],
+        },
+        {
+          italien: "piuttosto",
+          francais: ["plûtot", "assez"],
+        },
+        {
+          italien: "mezzanotte",
+          francais: ["minuit"],
+        },
+        {
+          italien: "un letto",
+          francais: ["un lit"],
+        },
+        {
+          italien: "populazione",
+          francais: ["population"],
+        },
+        {
+          italien: "votare",
+          francais: ["voter"],
+        },
+        {
+          italien: "una chiesa",
+          francais: ["une église"],
+        },
+        {
+          italien: "moglie",
+          francais: ["épouse"],
+        },
+        {
+          italien: "marito",
+          francais: ["mari"],
+        },
+        {
+          italien: "ufficio",
+          francais: ["bureau"],
+        },
+        {
+          italien: "un albero",
+          francais: ["un arbre"],
+        },
+        {
+          italien: "ieri",
+          francais: ["hier"],
+        },
+        {
+          italien: "colazione",
+          francais: ["petit-déjeuner"],
+        },
+        {
+          italien: "la macchina fotografica",
+          francais: ["l'appareil photo"],
+        },
+        {
+          italien: "mettere",
+          francais: ["mettre"],
+        },
+        {
+          italien: "spinaci",
+          francais: ["épinard"],
+        },
+        {
+          italien: "un alluno",
+          francais: ["un élève"],
+        },
+        {
+          italien: "una alluna",
+          francais: ["une élève"],
+        },
+        {
+          italien: "il cameriere",
+          francais: ["le serveur"],
+        },
+        {
+          italien: "la cameriera",
+          francais: ["la serveuse"],
+        },
+        {
+          italien: "farmacista",
+          francais: ["pharmacien", "pharmacienne"],
+        },
+        {
+          italien: "nipote",
+          francais: ["nièce", "neveu", "petit-fils", "petite-fille"],
+        },
+        {
+          italien: "fratello",
+          francais: ["frère"],
+        },
+        {
+          italien: "sorella",
+          francais: ["soeur"],
+        },
+        {
+          italien: "il prezzo",
+          francais: ["le prix"],
+        },
+        {
+          italien: "il dente",
+          francais: ["la dent"],
+        },
+        {
+          italien: "la penna",
+          francais: ["le stylo"],
+        },
+        {
+          italien: "un tavolo",
+          francais: ["une table"],
+        },
+        {
+          italien: "cuccinare",
+          francais: ["cuisiner"],
+        },
+        {
+          italien: "ipotesi",
+          francais: ["hypothèses"],
+        },
+        {
+          italien: "l'errore",
+          francais: ["l'erreur"],
+        },
+        {
+          italien: "l'invito",
+          francais: ["l'invitation"],
+        },
+        {
+          italien: "l'aiuto",
+          francais: ["l'aide"],
+        },
+        {
+          italien: "aiutare",
+          francais: ["aider"],
+        },
+        {
+          italien: "la coppia",
+          francais: ["le couple"],
+        },
+        {
+          italien: "l'estate",
+          francais: ["l'été"],
+        },
+        {
+          italien: "la percentuale",
+          francais: ["le pourcentage"],
+        },
+        {
+          italien: "l'indirizzo",
+          francais: ["l'adresse"],
+        },
+        {
+          italien: "guardare",
+          francais: ["regarder"],
+        },
+        {
+          italien: "gli occhiali da sole",
+          francais: ["les lunettes de soleil"],
+        },
+        {
+          italien: "erba",
+          francais: ["herbe"],
+        },
+        {
+          italien: "aspettare",
+          francais: ["attendre"],
+        },
+        {
+          italien: "une rivista",
+          francais: ["une revue"],
+        },
+        {
+          italien: "l'anno prossimo",
+          francais: ["l'année prochaine"],
+        },
+        {
+          italien: "incontrare",
+          francais: ["rencontrer"],
+        },
+        {
+          italien: "settimana",
+          francais: ["semaine"],
+        },
+        {
+          italien: "adesso",
+          francais: ["maintenant"],
+        },
+        {
+          italien: "domani",
+          francais: ["demain"],
+        },
+        {
+          italien: "colloquio di lavoro",
+          francais: ["entretien d'embauche"],
+        },
+        {
+          italien: "ogni",
+          francais: ["chaque"],
+        },
+        {
+          italien: "convidire",
+          francais: ["partager"],
+        },
+        {
+          italien: "un sogno",
+          francais: ["un rêve"],
+        },
+        {
+          italien: "cuocere",
+          francais: ["cuire"],
+        },
+        {
+          italien: "non vedo l'ora",
+          francais: ["j'ai hâte"],
+        },
+        {
+          italien: "rimuovere",
+          francais: ["enlever"],
+        },
+        {
+          italien: "a che ora",
+          francais: ["à quelle heure"],
+        },
+      ];
 
-        ];
+      let motsUtilises = [];
+      let currentWord;
+      let isItToFr = true; // Variable to track direction of translation (italien -> français or français -> italien)
 
-        let motsUtilises = [];
-        let currentWord;
-        let isItToFr = true;  // Variable to track direction of translation (italien -> français or français -> italien)
-
-        function getRandomWord() {
-            if (vocabulaire.length === 0) {
-                document.getElementById("word-to-translate").innerText = "Tu as révisé tous les mots !";
-                return;
-            }
-
-            const randomIndex = Math.floor(Math.random() * vocabulaire.length);
-            currentWord = vocabulaire[randomIndex];
-            motsUtilises.push(currentWord);
-            vocabulaire.splice(randomIndex, 1);
-
-            // Randomly decide if the translation will be from Italian to French or vice-versa
-            isItToFr = Math.random() >= 0.5;
-
-            if (isItToFr) {
-                document.getElementById("word-to-translate").innerText = currentWord.italien;  // Show the Italian word
-            } else {
-                document.getElementById("word-to-translate").innerText = currentWord.francais;  // Show the French word
-            }
+      function getRandomWord() {
+        if (vocabulaire.length === 0) {
+          document.getElementById("word-to-translate").innerText =
+            "Tu as révisé tous les mots !";
+          return;
         }
 
-        function checkAnswer() {
-    const userAnswer = document.getElementById("user-input").value.toLowerCase().trim();
-    let correctAnswers;
+        const randomIndex = Math.floor(Math.random() * vocabulaire.length);
+        currentWord = vocabulaire[randomIndex];
+        motsUtilises.push(currentWord);
+        vocabulaire.splice(randomIndex, 1);
 
-    if (isItToFr) {
-        correctAnswers = currentWord.francais.map(ans => ans.toLowerCase());
-    } else {
-        correctAnswers = [currentWord.italien.toLowerCase()];
-    }
+        // Randomly decide if the translation will be from Italian to French or vice-versa
+        isItToFr = Math.random() >= 0.5;
 
-    if (correctAnswers.includes(userAnswer)) {
-        document.getElementById("result").innerText = "Correct !";
-        document.getElementById("result").className = "correct";
-    } else {
-        document.getElementById("result").innerText = `Faux ! Les bonnes réponses étaient : ${correctAnswers.join(', ')}`;
-        document.getElementById("result").className = "wrong";
-    }
+        if (isItToFr) {
+          document.getElementById("word-to-translate").innerText =
+            currentWord.italien; // Show the Italian word
+        } else {
+          document.getElementById("word-to-translate").innerText =
+            currentWord.francais; // Show the French word
+        }
+      }
 
-    document.getElementById("user-input").value = '';
-    getRandomWord();
-}
+      function checkAnswer() {
+        const userAnswer = document
+          .getElementById("user-input")
+          .value.toLowerCase()
+          .trim();
+        let correctAnswers;
 
+        if (isItToFr) {
+          // Si 'francais' est un tableau, on applique .map(), sinon on le transforme en tableau d'une seule valeur
+          if (Array.isArray(currentWord.francais)) {
+            correctAnswers = currentWord.francais.map((ans) =>
+              ans.toLowerCase()
+            );
+          } else {
+            correctAnswers = [currentWord.francais.toLowerCase()];
+          }
+        } else {
+          correctAnswers = [currentWord.italien.toLowerCase()];
+        }
 
-        // Initialiser avec un premier mot
+        if (correctAnswers.includes(userAnswer)) {
+          document.getElementById("result").innerText = "Correct !";
+          document.getElementById("result").className = "correct";
+        } else {
+          document.getElementById(
+            "result"
+          ).innerText = `Faux ! Les bonnes réponses étaient : ${correctAnswers.join(
+            ", "
+          )}`;
+          document.getElementById("result").className = "wrong";
+        }
+
+        document.getElementById("user-input").value = "";
         getRandomWord();
+      }
+
+      // Initialiser avec un premier mot
+      getRandomWord();
     </script>
-</body>
+  </body>
 </html>
+
