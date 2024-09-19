@@ -77,10 +77,14 @@ function updateScore() {
   scoreDiv.textContent = `Score : ${correctAnswers} / ${totalQuestions}`;
 }
 
-// Afficher les cartes au chargement de la page displayFlashcards(); updateScore();
-
-// Gestion du bouton pour vider le Local Storage clearStorageBtn.addEventListener('click', () => {
-localStorage.removeItem("vocabList");
-vocabList = [];
+// Afficher les cartes au chargement de la page
 displayFlashcards();
 updateScore();
+
+// Gestion du bouton pour vider le Local Storage
+clearStorageBtn.addEventListener("click", () => {
+  localStorage.removeItem("vocabList");
+  vocabList = [];
+  displayFlashcards();
+  updateScore();
+});
