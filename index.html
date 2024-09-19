@@ -118,6 +118,158 @@
         { italien: "giovane", francais: "jeune" },
         { italien: "trentina", francais: "trentaine" },
         { italien: "rispondere", francais: "répondre" },
+             {
+          italien: "subito",
+          francais: "de suite",
+        },
+        {
+          italien: "fuori",
+          francais: "dehors",
+        },
+        {
+          italien: "ovunque",
+          francais: "partout",
+        },
+        {
+          italien: "nacosta",
+          francais: "cachée",
+        },
+        {
+          italien: "scomparire",
+          francais: "disparaître",
+        },
+        {
+          italien: "assurda",
+          francais: "absurde",
+        },
+        {
+          italien: "regalo",
+          francais: "cadeau",
+        },
+        {
+          italien: "scelte",
+          francais: "choix",
+        },
+        {
+          italien: "lo spazzolino da denti",
+          francais: "la brosse à dent",
+        },
+        {
+          italien: "il mese scorso",
+          francais: "le mois prochain",
+        },
+        {
+          italien: "infenzia",
+          francais: "l'enfance",
+        },
+        {
+          italien: "tornare",
+          francais: ["revenir", "retourner", "rentrer"],
+        },
+        {
+          italien: "mattina",
+          francais: "matin",
+        },
+        {
+          italien: "accompagnare",
+          francais: "accompagner",
+        },
+        {
+          italien: "prenotare",
+          francais: "réserver",
+        },
+        {
+          italien: "splendere",
+          francais: "briller",
+        },
+        {
+          italien: "luglio",
+          francais: "juillet",
+        },
+        {
+          italien: "finestrino",
+          francais: "fenêtre de voiture",
+        },
+        {
+          italien: "finestra",
+          francais: "fenêtre",
+        },
+        {
+          italien: "i boschi",
+          francais: "les bois",
+        },
+        {
+          italien: "l'aria fresca",
+          francais: "l'air frais",
+        },
+        {
+          italien: "profumo",
+          francais: "parfum",
+        },
+        {
+          italien: "pianta",
+          francais: "plante",
+        },
+        {
+          italien: "dopo",
+          francais: "après",
+        },
+        {
+          italien: "invece",
+          francais: "en revanche",
+        },
+        {
+          italien: "insieme",
+          francais: "ensemble",
+        },
+        {
+          italien: "durante",
+          francais: "durant",
+        },
+        {
+          italien: "l'odore",
+          francais: "l'odeur",
+        },
+        {
+          italien: "un'indagine",
+          francais: "une enquête",
+        },
+        {
+          italien: "ordine",
+          francais: "ordre",
+        },
+        {
+          italien: "qui e là",
+          francais: "ici et là",
+        },
+        {
+          italien: "a prima vista",
+          francais: "à première vue",
+        },
+        {
+          italien: "di solito",
+          francais: "d'habitude",
+        },
+        {
+          italien: "borgo",
+          francais: "village",
+        },
+        {
+          italien: "cartolina",
+          francais: "carte postale",
+        },
+        {
+          italien: "persa",
+          francais: "perdue",
+        },
+        {
+          italien: "perso",
+          francais: "perdu",
+        },
+        {
+          italien: "lasciare",
+          francais: "laisser",
+        },
 
         ];
 
@@ -147,26 +299,27 @@
         }
 
         function checkAnswer() {
-            const userAnswer = document.getElementById("user-input").value.toLowerCase().trim();
-            let correctAnswer;
+    const userAnswer = document.getElementById("user-input").value.toLowerCase().trim();
+    let correctAnswers;
 
-            if (isItToFr) {
-                correctAnswer = currentWord.francais.toLowerCase();
-            } else {
-                correctAnswer = currentWord.italien.toLowerCase();
-            }
+    if (isItToFr) {
+        correctAnswers = currentWord.francais.map(ans => ans.toLowerCase());
+    } else {
+        correctAnswers = [currentWord.italien.toLowerCase()];
+    }
 
-            if (userAnswer === correctAnswer) {
-                document.getElementById("result").innerText = "Correct !";
-                document.getElementById("result").className = "correct";
-            } else {
-                document.getElementById("result").innerText = `Faux ! La bonne réponse était : ${correctAnswer}`;
-                document.getElementById("result").className = "wrong";
-            }
+    if (correctAnswers.includes(userAnswer)) {
+        document.getElementById("result").innerText = "Correct !";
+        document.getElementById("result").className = "correct";
+    } else {
+        document.getElementById("result").innerText = `Faux ! Les bonnes réponses étaient : ${correctAnswers.join(', ')}`;
+        document.getElementById("result").className = "wrong";
+    }
 
-            document.getElementById("user-input").value = '';
-            getRandomWord();
-        }
+    document.getElementById("user-input").value = '';
+    getRandomWord();
+}
+
 
         // Initialiser avec un premier mot
         getRandomWord();
